@@ -71,14 +71,25 @@ public class List {
      *  increments its counter. Otherwise, adds a new CharData object with the
      *  given chr to the beginning of this list. */
     public void update(char chr) {
-        int index = indexOf(chr); 
-        if (index == -1) {
+        if (first == null)
+        {
+            addFirst(chr);
+            return;
+        }
+        Node current = first;
+        while (current != null) 
+        {
+            if (current.cp.chr == chr){
+                current.cp.count ++;
+                break;
+            }
+            current = current.next;
+        }
+        if (current == null)  {
             addFirst(chr);
         }
-        else{
-            CharData cData = get(index);
-            cData.count=cData.count+1;
-        }
+      
+
     }
 
     /** GIVE If the given character exists in one of the CharData objects
@@ -94,8 +105,9 @@ public class List {
         }
         if (current == null)
             return false;
-        if (prev == null)
+        if (prev == null){
             first = first.next;
+        }
         else{
             prev.next = current.next;
         }
@@ -112,8 +124,11 @@ public class List {
         if (index >= size || index < 0){
             throw new IndexOutOfBoundsException("incorrect index");
         }
-        for (int i = 0; i<index; i++){
-            current = current.next;
+      for (int i = 0; i < size ; i++) {
+            if (index == i)
+                break;
+            else
+                current = current.next;
         }
         return current.cp;
 
